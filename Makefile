@@ -18,7 +18,7 @@ SRCS = src/zit.c \
        src/commands/rev_parse.c \
        src/commands/rm.c \
        src/commands/show_ref.c \
-       src/utils/utils.c
+       src/utils/utils.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -26,4 +26,7 @@ zit: $(OBJS)
 	$(CC) $(CFLAGS) -o zit $(OBJS)
 
 clean:
-	rm -f zit $(OBJS)
+	rm -f $(OBJS)
+
+cleanall: clean
+	rm -f zit

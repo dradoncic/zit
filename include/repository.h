@@ -15,6 +15,12 @@ typedef struct {
 
 repository* initialize(const char* path, int bare);
 
+static int valid(const char* path);
+
+static repository* fill(const char* path, int bare);
+
+repository* open(const char* path);
+
 void destroy(repository* repo);
 
 #endif

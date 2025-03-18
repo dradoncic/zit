@@ -9,6 +9,11 @@ typedef struct {
 
 extern command commands[];
 
-void usage(const char*progname);
+void usage(const char* progname);
+
+int file_exists(const char* path);
+
+int dir_exists(const char* path);
+
 
 #endif 

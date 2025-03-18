@@ -1,16 +1,18 @@
 #include "../../include/repository.h"
+#include "../../include/utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <errno.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 repository* initialize(const char* path, int bare) {
     repository *repo = malloc(sizeof(repository));
 
-    if (!repo) 
-        return NULL;
+    if (!repo) return NULL;
     
     repo->is_bare = bare;
 
@@ -37,10 +39,16 @@ repository* initialize(const char* path, int bare) {
         return NULL;
     }
 
-    struct stat file_info;
+    char* path_refs_heads = malloc(strlen(repo->path_refs) + 7);
+    char * path_refs_tags = malloc(strlen(repo->path_refs) + 6);
+    snprintf(path_refs_heads, strlen(repo->path_refs) + 7, "%s/heads", repo->path_refs);
+    snprintf(path_refs_tags, strlen(repo->path_refs) + 6, "%s/tags", repo->path_refs);
+
     const char* dirs[] = {
         repo->path_objects,
-        repo->path_refs, 
+        repo->path_refs,
+        path_refs_heads,
+        path_refs_tags,
         NULL
     };
 
@@ -51,7 +59,7 @@ repository* initialize(const char* path, int bare) {
             return NULL;
         }
     }
-
+    
     FILE* head = fopen(repo->path_head, "w");
     if (!head) {
         perror("Failed to create HEAD file");
@@ -65,7 +73,29 @@ repository* initialize(const char* path, int bare) {
     return repo;
 }
 
-void destory(repository* repo) {
+
+repository* open(const char* inpath) {
+    char* path = inpath ? realpath(inpath, NULL) : getcwd(NULL, 0);
+    if (!path) return NULL;
+
+    repository* repo = NULL;
+
+    if (valid(path)) {
+        repo = fill(path, 1);
+    } else {
+        char* fullpath = malloc(strlen(path) + 5);
+        asprintf(fullpath, (strlen(path) + 5), "%s/.zit", path);
+        if (valid(fullpath)) {
+            repo = fill(fullpath, 0);
+        }
+        free(fullpath);
+    }
+
+    free(path);
+    return repo;
+} 
+
+void destroy(repository* repo) {
     if (!repo) return;
     free(repo->path);
     free(repo->path_zit_dir);

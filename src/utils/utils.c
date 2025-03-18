@@ -2,6 +2,7 @@
 #include "../include/commands.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 command commands[] = {
     {"add", cmd_add, "Add file contents to the index"},
@@ -21,6 +22,22 @@ command commands[] = {
     {"tag", cmd_tag, "Create, list, delete or verify a tag object signed with GPG"},
     {NULL, NULL, NULL}
 };
+
+int file_exists(const char* path) {
+    struct stat fileinfo;
+    if (stat(path, &fileinfo) == 0 && S_ISREG(fileinfo.st_mode)) {
+        return 1;
+    }
+    return 0;
+}
+
+int dir_exists(const char*path) {
+    struct stat fileinfo;
+    if (stat(path, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode)) {
+        return 1;
+    }
+    return 0;
+}
 
 void usage(const char *progname) {
     fprintf(stderr, "Usage: %s <command> [<args>]\n\n", progname);
