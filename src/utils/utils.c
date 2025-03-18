@@ -1,6 +1,7 @@
-#include "include/utils.h"
-#include "include/commands.h"
+#include "../include/utils.h"
+#include "../include/commands.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 command commands[] = {
     {"add", cmd_add, "Add file contents to the index"},
