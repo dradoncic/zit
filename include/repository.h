@@ -31,7 +31,7 @@ typedef struct {
 
 repository* initialize(const char* path, int bare);
 
-bool valid(const char* path);
+static bool valid(const char* path);
 
 static repository* fill(const char* path, int bare);
 
