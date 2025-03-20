@@ -1,8 +1,9 @@
 CC = gcc
-CFLAGS = -O3 -Wall -Wextra -Iinclude
+CFLAGS = -O3 -Wall -Wextra -Iinclude -lz
 
 SRCS = src/zit.c \
        src/core/repository.c \
+       src/core/object.c \
        src/commands/init.c \
        src/commands/add.c \
        src/commands/commit.c \

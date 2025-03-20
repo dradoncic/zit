@@ -1,6 +1,7 @@
-#include <stdbool.h>
 #ifndef REPOSITORY_H
 #define REPOSITORY_H
+
+#include <stdbool.h>
 
 #define ZIT_DIR ".zit"
 #define ROOT "."
@@ -29,14 +30,16 @@ typedef struct {
     int is_bare;            // bare repository flag
 } repository;
 
+
+// functionality to create and/or open zit repositories
 repository* initialize(const char* path, int bare);
-
-static bool valid(const char* path);
-
-static repository* fill(const char* path, int bare);
-
 repository* open(const char* path);
 
+
+// helper functions for memory management and validation
 void destroy(repository* repo);
+static bool valid(const char* path);
+static repository* fill(const char* path, int bare);
+
 
 #endif
