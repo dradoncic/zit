@@ -1,5 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
+#include <stdbool.h>
 
 typedef struct {
 	const char *name;
@@ -11,9 +12,8 @@ extern command commands[];
 
 void usage(const char* progname);
 
-int file_exists(const char* path);
+bool file_exists(const char* path);
 
-int dir_exists(const char* path);
-
+bool dir_exists(const char* path);
 
 #endif 

@@ -23,20 +23,20 @@ command commands[] = {
     {NULL, NULL, NULL}
 };
 
-int file_exists(const char* path) {
+bool file_exists(const char* path) {
     struct stat fileinfo;
     if (stat(path, &fileinfo) == 0 && S_ISREG(fileinfo.st_mode)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
-int dir_exists(const char*path) {
+bool dir_exists(const char*path) {
     struct stat fileinfo;
     if (stat(path, &fileinfo) == 0 && S_ISDIR(fileinfo.st_mode)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void usage(const char *progname) {
