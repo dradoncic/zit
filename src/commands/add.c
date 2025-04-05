@@ -15,7 +15,7 @@ int cmd_add(int argc, char** argv) {
 
     // now we have to add in all the logic to add our changes to the staging area.
 
-    destroy(repo);
+    clean_repo(repo);
 
     return 0;
 }

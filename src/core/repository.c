@@ -7,7 +7,6 @@
 #include <errno.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <sys/stat.h>
 
 repository* initialize(const char* path, int bare) {
     repository *repo = malloc(sizeof(repository));
@@ -39,7 +38,7 @@ repository* initialize(const char* path, int bare) {
 
     if (mkdir(repo->path_zit_dir, DEFAULT_DIR_MODE) == -1 && errno != EEXIST) {
         perror("Failed to create .zit directory");
-        destroy(repo);
+        clean_repo(repo);
         return NULL;
     }
 
@@ -54,7 +53,7 @@ repository* initialize(const char* path, int bare) {
     for (const char **dir = dirs; *dir; dir++) {
         if (mkdir(*dir, DEFAULT_DIR_MODE) == -1 && errno != EEXIST) {
             perror("Failed to create subdirectory");
-            destroy(repo);
+            clean_repo(repo);
             return NULL;
         }
     }
@@ -62,7 +61,7 @@ repository* initialize(const char* path, int bare) {
     FILE* head = fopen(repo->path_head, "w");
     if (!head) {
         perror("Failed to create HEAD file");
-        destroy(repo);
+        clean_repo(repo);
         return NULL;
     }
 
@@ -178,7 +177,7 @@ repository* fill(const char* path, int bare) {
     return repo;
 }
 
-void destroy(repository* repo) {
+void clean_repo(repository* repo) {
     if (!repo) return;
     free(repo->path);
     free(repo->path_zit_dir);

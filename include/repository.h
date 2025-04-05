@@ -37,7 +37,7 @@ repository* open(const char* path);
 
 
 // helper functions for memory management and validation
-void destroy(repository* repo);
+void clean_repo(repository* repo);
 static bool valid(const char* path);
 static repository* fill(const char* path, int bare);
 

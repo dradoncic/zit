@@ -2,6 +2,8 @@
     "files.associations": {
         "stdio.h": "c",
         "repository.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "object.h": "c",
+        "unistd.h": "c"
     }
 }

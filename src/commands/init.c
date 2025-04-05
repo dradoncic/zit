@@ -14,6 +14,6 @@ int cmd_init(int argc, char** argv) {
 
     printf("Initialized zit %s Zit repository at %s\n", bare ? "bare" : "empty", repo->path_zit_dir);
 
-    destroy(repo);
+    clean_repo(repo);
     return 0;
 }
