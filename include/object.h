@@ -34,13 +34,15 @@ object* create_object(obj_type type, const char* data, size_t size);
 object* open_object(repository* repo, const char* hash);
 
 // helper functions for specified object types
-int serialize_blob(repository* repo, object obj);
-int deserialize_blob(repository* repo, object obj, const char* hash);
-int serialize_commit(repository* repo, object obj);
-int deserialize_commit(repository* repo, object obj, const char* hash);
-int serialize_tree(repository* repo, object obj);
-int deserialize_tree(repository* repo, object obj, const char* hash);
-int serialize_tag(repository* repo, object obj);
-int deserialize_tag(repository* repo, object obj, const char* hash);
+static int serialize_blob(repository* repo, object obj);
+static int deserialize_blob(repository* repo, object obj, const char* hash);
+static int serialize_commit(repository* repo, object obj);
+static int deserialize_commit(repository* repo, object obj, const char* hash);
+static int serialize_tree(repository* repo, object obj);
+static int deserialize_tree(repository* repo, object obj, const char* hash);
+static int serialize_tag(repository* repo, object obj);
+static int deserialize_tag(repository* repo, object obj, const char* hash);
+
+void clean_obj(object* obj);
 
 #endif
