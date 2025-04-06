@@ -29,9 +29,17 @@ typedef struct {
 } object;
 
 
-// functionality to create and/or open select objects
+// external functions to interact with objects
 object* create_object(obj_type type, const char* data, size_t size);
 object* open_object(repository* repo, const char* hash);
+void clean_obj(object* obj);
+
+// some more internal functions that are going to 
+static int compute_hash(const char* header, size_t header_size, const char* content, size_t content_size, char* out_hash);
+static int write_object_file(repository* repo, const char* hash, const char* content, size_t size);
+static int read_object_file(repository* repo, const char* hash, char** content, size_t* size);
+static const char* obj_type_to_string(obj_type type);
+static obj_type string_to_obj_type(const char* type_str);
 
 // helper functions for specified object types
 static int serialize_blob(repository* repo, object obj);
@@ -43,6 +51,5 @@ static int deserialize_tree(repository* repo, object obj, const char* hash);
 static int serialize_tag(repository* repo, object obj);
 static int deserialize_tag(repository* repo, object obj, const char* hash);
 
-void clean_obj(object* obj);
 
 #endif
