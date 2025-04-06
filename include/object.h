@@ -1,7 +1,6 @@
 #ifndef OBJECT_H
 #define  OBJECT_H
 
-#include <zlib.h>
 #include <stdlib.h>
 #include "repository.h"
 
@@ -10,6 +9,8 @@
 hash[0:2] --> directory
 hash[2:] --> filename 
 */
+
+struct object;
 
 typedef enum {
     OBJ_BLOB,
@@ -42,14 +43,14 @@ static const char* obj_type_to_string(obj_type type);
 static obj_type string_to_obj_type(const char* type_str);
 
 // helper functions for specified object types
-static int serialize_blob(repository* repo, object obj);
-static int deserialize_blob(repository* repo, object obj, const char* hash);
-static int serialize_commit(repository* repo, object obj);
-static int deserialize_commit(repository* repo, object obj, const char* hash);
-static int serialize_tree(repository* repo, object obj);
-static int deserialize_tree(repository* repo, object obj, const char* hash);
-static int serialize_tag(repository* repo, object obj);
-static int deserialize_tag(repository* repo, object obj, const char* hash);
+static int serialize_blob(repository* repo, struct object* obj);
+static int deserialize_blob(repository* repo, struct object* obj, const char* hash);
+static int serialize_commit(repository* repo, struct object* obj);
+static int deserialize_commit(repository* repo, struct object* obj, const char* hash);
+static int serialize_tree(repository* repo, struct object* obj);
+static int deserialize_tree(repository* repo, struct object* obj, const char* hash);
+static int serialize_tag(repository* repo, struct object* obj);
+static int deserialize_tag(repository* repo, struct object* obj, const char* hash);
 
 
 #endif

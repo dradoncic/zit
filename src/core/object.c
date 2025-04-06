@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
+#include <openssl/sha.h>
 
 /**
  * Creates a new object structure with the specified type, data, and size.
@@ -23,9 +24,13 @@
  * @return pointer to the newly created object, or NULL on failure
  */
 object* create_object(obj_type type,  const char* data, size_t size) {
+    
+    /* initial creation of object structure */
     object* obj = malloc(sizeof(object));
     if (!obj) return NULL;
 
+
+    /* filling in object structure */
     obj->type = type;
     obj->size = size;
     obj->data = malloc(size + 1);
@@ -34,10 +39,11 @@ object* create_object(obj_type type,  const char* data, size_t size) {
         return NULL;
     }
 
-    memcpy(!obj->data, data, size);
+    memcpy(obj->data, data, size);
     obj->data[size] = '\0';
     obj->hash[0] = '\0';
 
+    /* assigning correct methods to the object */
     switch (type) {
         case OBJ_BLOB:
             obj->serialize = serialize_blob;
@@ -156,6 +162,33 @@ object* open_object(repository* repo, const char* hash) {
     }
 
     return obj;
+}
+
+
+/**
+ * Serializes a blob object to the repository.
+ * 
+ * Blobs store file contents without any metadata.
+ * 
+ * The format is "blob <size>\0<content>"
+ * 
+ * @param repo the repository to store the object
+ * @param obj the object to serialize
+ * @return 0 on success, non-zero on failure
+ */
+int serialize_blob(repository* repo, object* obj) {
+    if (!repo ||  !obj ||  obj->type != OBJ_BLOB) {
+        return 1;
+    }
+
+    /* create the header format "blob <size>\0" */
+    char header[100];
+    int header_size = snprintf(header, sizeof(header), "blob %zu", obj->size);
+    if (header_size < 0 || header_size >= sizeof(header)) {
+        return 1;
+    }
+
+
 }
 
 

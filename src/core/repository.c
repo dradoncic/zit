@@ -72,7 +72,7 @@ repository* initialize(const char* path, int bare) {
 }
 
 
-repository* open(const char* inpath) {
+repository* ropen(const char* inpath) {
     char* path = inpath ? realpath(inpath, NULL) : getcwd(NULL, 0);
     if (!path) return NULL;
 

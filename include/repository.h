@@ -33,7 +33,7 @@ typedef struct {
 
 // functionality to create and/or open zit repositories
 repository* initialize(const char* path, int bare);
-repository* open(const char* path);
+repository* ropen(const char* path);
 
 
 // helper functions for memory management and validation

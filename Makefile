@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -O3 -Wall -Wextra -Iinclude -lz
+CFLAGS = -O3 -Wall -Wextra -Iinclude -I/opt/homebrew/opt/openssl/include
+LDFLAGS = -L/opt/homebrew/opt/openssl/lib -lssl -lcrypto
 
 SRCS = src/zit.c \
        src/core/repository.c \
@@ -24,7 +25,7 @@ SRCS = src/zit.c \
 OBJS = $(SRCS:.c=.o)
 
 zit: $(OBJS)
-	$(CC) $(CFLAGS) -o zit $(OBJS)
+	$(CC) -o zit $(OBJS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS)
